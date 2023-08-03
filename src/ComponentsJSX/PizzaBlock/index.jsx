@@ -5,7 +5,7 @@ import React from 'react'
 function PizzaBlock({ title, price,imageUrl,sizes,types}) {
   const [pizzaCount, setPizzaCount] = useState(0);
 
-  const [activeType,setActiveType] = useState(0)
+  const [activeType,setActiveType] = useState()
 
   //"sizes": [26, 30, 40],
   const [activeSize,setActiveSize] = useState(0)
@@ -29,7 +29,7 @@ function PizzaBlock({ title, price,imageUrl,sizes,types}) {
         </ul>
         <ul>
           {
-            sizes.map(size => <li key={size} onClick={() => setActiveSize(size)} className={activeSize === size ? 'active' : ''}>{size}</li>)
+            sizes.map(size => <li key={size} onClick={() => setActiveSize(size)} className={activeSize === size ? 'active' : ''}>{size} см.</li>)
           }
         </ul>
       </div>
