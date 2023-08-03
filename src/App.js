@@ -4,21 +4,25 @@ import Header from './ComponentsJSX/Header';
 import Sort from './ComponentsJSX/Sort';
 import PizzaBlock from './ComponentsJSX/PizzaBlock';
 import Categories from './ComponentsJSX/Categories';
+import Skeleton from './ComponentsJSX/PizzaBlock/Skeleton';
 
 
 function App() {
 
-  const [items, setItems] = useState([]);
-
+  const [items, setItems] = useState([]);//для начала пустой массив
+  const [isLoading, setIsLoading] = useState(true)
+;
   useEffect(() => {
-  fetch()
+  fetch('https://64ca4e9a700d50e3c704afbc.mockapi.io/items')//вытаскиваем данные фетчем
     .then((res) => {
       return res.json();
     })
-  .then((arr) =>
-    {setItems(arr)
-    });
-  }, []);
+    .then((arr) =>//устанавливаем данные
+      {
+        setItems(arr)
+        setIsLoading(false)
+      });
+    }, []);//скобки пустые в конце значат, что рендерим один раз при загрузке
 
   return (
       <div className="wrapper">
@@ -32,11 +36,9 @@ function App() {
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
               {
-                items//берём из pizzas.json и парсим
-                .map(obj => <PizzaBlock key={obj.id}
-                  {...obj}//спред оператором вставляем все пропсы , передаём в атрибуты тега , а не внутрь
-                  >
-                  </PizzaBlock>)
+                isLoading
+                ? [...new Array(9)].map((_,index) => <Skeleton  key={index} />)
+                : items.map((el) => <PizzaBlock key={el.id} {...el}/>)
               }
             </div>
           </div>
