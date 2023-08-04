@@ -21,6 +21,7 @@ export const Home = () => {
         setItems(arr)
         setIsLoading(false)
       });
+      window.scrollTo(0,0);
     }, []);//скобки пустые в конце значат, что рендерим один раз при загрузке
 
 
