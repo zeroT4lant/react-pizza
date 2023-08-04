@@ -26,18 +26,21 @@ export const Home = () => {
 
   return (
     <>
-        <div className="content__top">
-          <Categories />
-          <Sort />
-        </div>
-        <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">
-          {
-            isLoading
-            ? [...new Array(9)].map((_,index) => <Skeleton  key={index} />)
-            : items.map((el) => <PizzaBlock key={el.id} {...el}/>)
-          }
-        </div>
+      <div className="container">
+          <div className="content__top">
+            <Categories />
+            <Sort />
+          </div>
+          <h2 className="content__title">Все пиццы</h2>
+          <div className="content__items">
+            {
+              isLoading
+              ? [...new Array(9)].map((_,index) => <Skeleton  key={index} />)
+              : items.map((el) => <PizzaBlock key={el.id} {...el}/>)
+            }
+          </div>
+      </div>
+        
     </>
   );
 }
