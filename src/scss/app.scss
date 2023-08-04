@@ -44,6 +44,7 @@ body {
 
     @media (max-width: 730px) {
       grid-template-columns: repeat(1, 1fr);
+
     }
   }
 
@@ -53,11 +54,11 @@ body {
     justify-content: space-between;
 
     @media (max-width: 1260px) {
-      flex-direction: column-reverse;
   
       .categories{
         width: 100%;
         overflow: auto;
+        
 
         ul {
           width: 785px;
@@ -65,6 +66,7 @@ body {
       }
 
       .sort{
+        padding-left: 20px;
         b {
           display: none;
         }
@@ -73,7 +75,7 @@ body {
 
     @media (max-width: 780px) {
       .categories{
-        margin-top: 30px;
+        margin-bottom: 30px;
       }
       flex-direction: column;
     }
@@ -150,8 +152,8 @@ body {
     }
   }
 
-  &__items {
-    display: flex;
+  .content__items {
+    display: block;
   }
 
   &__item {
