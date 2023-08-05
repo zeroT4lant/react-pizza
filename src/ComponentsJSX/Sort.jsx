@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 
-function Sort({ sortType, onClickSort }) {
-  const sortOptions = ["популярности", "цене", "алфавиту"];
+function Sort({ sortType, onClickSort }) {//впервые sortType приходит как объект с двумя полями(свойствами)
+  const sortOptions = 
+  [{name:"популярности",sort: 'rating'},
+  {name:"цене",sort: 'price'},
+  {name:"алфавиту",sort: 'title'},]
+
 
   const [open, setOpen] = useState(false); //делаем ниже крутую проверку
   // если open==true, то рендерим выпадающий список
@@ -30,7 +34,7 @@ function Sort({ sortType, onClickSort }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortOptions[sortType]}</span>
+        <span onClick={() => setOpen(!open)}>{sortType.name}</span>
       </div>
       {
         //если open === true, то выводим выпадающий список. Два амперсанта работают так, что иду по очерёдности до конца, выполняя последнее ТРУ действие
@@ -39,13 +43,13 @@ function Sort({ sortType, onClickSort }) {
         open && (
           <div className="sort__popup">
             <ul>
-              {sortOptions.map((el, i) => (
+              {sortOptions.map((obj, i) => (
                 <li
                   key={i}
-                  onClick={() => selectOptionAndClose(i, open)}
-                  className={sortType === i ? "active" : ""}
+                  onClick={() => selectOptionAndClose(obj, open)}
+                  className={sortType.sort === obj.sort ? "active" : ""}
                 >
-                  {el}
+                  {obj.name}
                 </li>
               ))}
             </ul>
