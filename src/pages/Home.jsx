@@ -16,12 +16,20 @@ export const Home = () => {
     sort: "rating",
   }); 
 
+  
+
   useEffect(() => {
     setIsLoading(true);
+
+    const order = sortType.sort.includes('-') ? 'asc' : 'desc';
+    const sortBy = sortType.sort.replace('-','')
+    const category = categoryId > 0 ? `category=${categoryId}` : ""
+
     fetch(
-      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?${
-        categoryId > 0 ? `category=${categoryId}` : ""
-      }&sortBy=${sortType.sort}&order=desc`
+      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?
+      ${category}
+      &sortBy=${sortBy}
+      &order=${order}`
     ) //вытаскиваем данные фетчем
       .then((res) => {
         return res.json();

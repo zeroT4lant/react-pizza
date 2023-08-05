@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 function Sort({ sortType, onClickSort }) {//впервые sortType приходит как объект с двумя полями(свойствами)
   const sortOptions = 
-  [{name:"популярности",sort: 'rating'},
-  {name:"цене",sort: 'price'},
-  {name:"алфавиту",sort: 'title'},]
+  [
+  {name:"популярности (desc)",sort: 'rating'},
+  {name:"популярности (asc)",sort: '-rating'},
+  {name:"цене (desc)",sort: 'price'},
+  {name:"цене (asc)",sort: '-price'},
+  {name:"алфавиту (desc)",sort: 'title'},
+  {name:"алфавиту (asc)",sort: '-title'},]
 
 
   const [open, setOpen] = useState(false); //делаем ниже крутую проверку
