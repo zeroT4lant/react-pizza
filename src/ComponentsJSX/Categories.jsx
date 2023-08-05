@@ -1,12 +1,18 @@
 import React from "react";
 
-function Categories(){
-  const [activeIndex, setActiveIndex] = React.useState(0);
+function Categories({categoryId, onClickCategory}){
+  // const [activeIndex, setActiveIndex] = React.useState(0);
 
-  const categories = ['Мясные','Все','Вегетарианская','Гриль','Острые','Закрытые']
+  const categories = ['Все','Мясные','Вегетарианская','Гриль','Острые','Закрытые']
 
   const categoriesElement = categories
-    .map((el,i) => <li key={i} onClick={() => setActiveIndex(el)} className={activeIndex === el ? 'active' : ''}>{el}</li>)//парсим все элементы
+    .map((el,i) => 
+    <li 
+    key={i} 
+    onClick={() => onClickCategory(i)}//ниже - когда нынешний стейт будет равен выбранному индексу, добавляем active
+    className={categoryId === i ? 'active' : ''}>
+      {el}
+    </li>)//парсим все элементы
 
   return (
     <div className="categories">
