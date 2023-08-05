@@ -13,8 +13,10 @@ export const Home = () => {
 
   const [categoryId, setCategoryId] = useState(1);//категории
 
-  const [sortType,setSortType] = useState('популярности');//сортировка
-;
+  const [sortType,setSortType] = useState(0);//сортировка
+
+  console.log(categoryId,sortType);
+  
   useEffect(() => {
     setIsLoading(true)
   fetch('https://64ca4e9a700d50e3c704afbc.mockapi.io/items?category=' + categoryId)//вытаскиваем данные фетчем
