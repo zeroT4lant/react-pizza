@@ -5,6 +5,8 @@ function Categories({categoryId, onClickCategory}){
 
   const categories = ['Все','Мясные','Вегетарианская','Гриль','Острые','Закрытые']
 
+  
+
   const categoriesElement = categories
     .map((el,i) => 
     <li 
@@ -13,7 +15,7 @@ function Categories({categoryId, onClickCategory}){
     className={categoryId === i ? 'active' : ''}>
       {el}
     </li>)//парсим все элементы
-
+    
   return (
     <div className="categories">
       <ul>

@@ -4,32 +4,30 @@ import Sort from "../ComponentsJSX/Sort";
 import PizzaBlock from "../ComponentsJSX/PizzaBlock";
 import Categories from "../ComponentsJSX/Categories";
 import Skeleton from "../ComponentsJSX/PizzaBlock/Skeleton";
+import Pagination from "../ComponentsJSX/Pagination";
 
-export const Home = () => {
+
+export const Home = ({ searchValue }) => {
   const [items, setItems] = useState([]); //для начала пустой массив
   const [isLoading, setIsLoading] = useState(true);
-
   const [categoryId, setCategoryId] = useState(1); //категории
-
-  const [sortType, setSortType] = useState({//сортировка
+  const [currentPage,setCurrentPage] = useState(1)
+  const [sortType, setSortType] = useState({
+    //сортировка
     name: "популярности",
     sort: "rating",
-  }); 
-
-  
+  });
 
   useEffect(() => {
     setIsLoading(true);
 
-    const order = sortType.sort.includes('-') ? 'asc' : 'desc';
-    const sortBy = sortType.sort.replace('-','')
-    const category = categoryId > 0 ? `category=${categoryId}` : ""
+    const order = sortType.sort.includes("-") ? "asc" : "desc";
+    const sortBy = sortType.sort.replace("-", "");
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+    const search = searchValue  ? `&search=${searchValue}` : "";
 
     fetch(
-      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?
-      ${category}
-      &sortBy=${sortBy}
-      &order=${order}`
+      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     ) //вытаскиваем данные фетчем
       .then((res) => {
         return res.json();
@@ -42,8 +40,12 @@ export const Home = () => {
           setIsLoading(false);
         }
       );
-    window.scrollTo(0, 0);
-  }, [categoryId, sortType]); //скобки пустые в конце значат, что рендерим один раз при загрузке
+  }, [categoryId, sortType, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
+
+  const pizzasss = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const skeletons = [...new Array(10)].map((_, index) => (
+    <Skeleton key={index} />
+  ));
 
   return (
     <>
@@ -57,11 +59,8 @@ export const Home = () => {
           <Sort sortType={sortType} onClickSort={(sort) => setSortType(sort)} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">
-          {isLoading
-            ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
-            : items.map((el) => <PizzaBlock key={el.id} {...el} />)}
-        </div>
+        <div className="content__items">{isLoading ? skeletons : pizzasss}</div>
+        <Pagination onChangePage={number => setCurrentPage(number)}/>
       </div>
     </>
   );
