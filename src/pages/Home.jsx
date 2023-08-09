@@ -5,9 +5,11 @@ import PizzaBlock from "../ComponentsJSX/PizzaBlock";
 import Categories from "../ComponentsJSX/Categories";
 import Skeleton from "../ComponentsJSX/PizzaBlock/Skeleton";
 import Pagination from "../ComponentsJSX/Pagination";
+import { SearchContext } from "../App";
 
 
-export const Home = ({ searchValue }) => {
+export const Home = () => {
+  const {searchValue} = React.useContext(SearchContext)//делаем чтобы применить контекст
   const [items, setItems] = useState([]); //для начала пустой массив
   const [isLoading, setIsLoading] = useState(true);
   const [categoryId, setCategoryId] = useState(1); //категории
@@ -27,7 +29,7 @@ export const Home = ({ searchValue }) => {
     const search = searchValue  ? `&search=${searchValue}` : "";
 
     fetch(
-      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?page=${currentPage}&limit=4& ${category}&sortBy=${sortBy}&order=${order}${search}`
     ) //вытаскиваем данные фетчем
       .then((res) => {
         return res.json();
