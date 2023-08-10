@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { setCategoryId } from "../redux/slices/filterSlice";
 
 import Sort from "../ComponentsJSX/Sort";
 import PizzaBlock from "../ComponentsJSX/PizzaBlock";
@@ -7,18 +10,24 @@ import Skeleton from "../ComponentsJSX/PizzaBlock/Skeleton";
 import Pagination from "../ComponentsJSX/Pagination";
 import { SearchContext } from "../App";
 
-
 export const Home = () => {
-  const {searchValue} = React.useContext(SearchContext)//делаем чтобы применить контекст
+  const dispatch = useDispatch();
+  const categoryId = useSelector((state) => state.filter.categoryId);
+
+  const { searchValue } = React.useContext(SearchContext); //делаем чтобы применить контекст
   const [items, setItems] = useState([]); //для начала пустой массив
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategoryId] = useState(1); //категории
-  const [currentPage,setCurrentPage] = useState(1)
+  //const [categoryId, setCategoryId] = useState(1); //категории
+  const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState({
     //сортировка
     name: "популярности",
     sort: "rating",
   });
+
+  const onClickCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -26,7 +35,7 @@ export const Home = () => {
     const order = sortType.sort.includes("-") ? "asc" : "desc";
     const sortBy = sortType.sort.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValue  ? `&search=${searchValue}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
 
     fetch(
       `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?page=${currentPage}&limit=4& ${category}&sortBy=${sortBy}&order=${order}${search}`
@@ -55,14 +64,14 @@ export const Home = () => {
         <div className="content__top">
           <Categories
             categoryId={categoryId}
-            onClickCategory={(id) => setCategoryId(id)}
+            onClickCategory={onClickCategory}
           />
 
           <Sort sortType={sortType} onClickSort={(sort) => setSortType(sort)} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{isLoading ? skeletons : pizzasss}</div>
-        <Pagination onChangePage={number => setCurrentPage(number)}/>
+        <Pagination onChangePage={(number) => setCurrentPage(number)} />
       </div>
     </>
   );
