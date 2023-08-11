@@ -13,17 +13,17 @@ import { SearchContext } from "../App";
 export const Home = () => {
   const dispatch = useDispatch();
   const categoryId = useSelector((state) => state.filter.categoryId);
+  const ssort = useSelector((state) => state.filter.ssort.sort)
 
   const { searchValue } = React.useContext(SearchContext); //делаем чтобы применить контекст
   const [items, setItems] = useState([]); //для начала пустой массив
   const [isLoading, setIsLoading] = useState(true);
-  //const [categoryId, setCategoryId] = useState(1); //категории
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({
-    //сортировка
-    name: "популярности",
-    sort: "rating",
-  });
+  // const [sortType, setSortType] = useState({
+  //   //сортировка
+  //   name: "популярности",
+  //   sort: "rating",
+  // });
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -34,7 +34,7 @@ export const Home = () => {
 
     // const order = sortType.sort.includes("-") ? "asc" : "desc";
     // const sortBy = sortType.sort.replace("-", "");
-    const sortBy = sortType.sort;
+    const sortBy = ssort;//const sortBy = ssort.sort;
     const category = categoryId > 0 ? `category=${categoryId}` : ""; //work category
     const search = searchValue ? `&title=*${searchValue}*` : ""; //work search
 
@@ -52,7 +52,7 @@ export const Home = () => {
           setIsLoading(false);
         }
       );
-  }, [categoryId, sortType, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
+  }, [categoryId, ssort, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
 
   
 
@@ -70,7 +70,7 @@ export const Home = () => {
             onClickCategory={onClickCategory}
           />
 
-          <Sort sortType={sortType} onClickSort={(sort) => setSortType(sort)} />
+          <Sort ssort={ssort}/>
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">{isLoading ? skeletons : pizzasss}</div>

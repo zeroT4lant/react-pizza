@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import {useSelector,useDispatch} from 'react-redux'
+import {setSort} from "../redux/slices/filterSlice"
 
-function Sort({ sortType, onClickSort }) {//впервые sortType приходит как объект с двумя полями(свойствами)
+function Sort() {//впервые sortType приходит как объект с двумя полями(свойствами)
+//{ sortType, onClickSort }
+  const dispatch = useDispatch()
+  const ssort = useSelector(state => state.filter.ssort)
+
   const sortOptions = 
   [
   {name:"популярности (desc)",sort: 'rating'},
@@ -17,8 +23,8 @@ function Sort({ sortType, onClickSort }) {//впервые sortType приход
   // const sortName = sortOptions[sortType]
 
   const selectOptionAndClose = (i, open) => {
-    // setOption(el);
-    onClickSort(i);
+    dispatch(setSort(i))
+    // onClickSort(i);
     setOpen(!open);
   };
 
@@ -38,7 +44,7 @@ function Sort({ sortType, onClickSort }) {//впервые sortType приход
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortType.name}</span>
+        <span onClick={() => setOpen(!open)}>{ssort.name}</span>
       </div>
       {
         //если open === true, то выводим выпадающий список. Два амперсанта работают так, что иду по очерёдности до конца, выполняя последнее ТРУ действие
@@ -51,7 +57,7 @@ function Sort({ sortType, onClickSort }) {//впервые sortType приход
                 <li
                   key={i}
                   onClick={() => selectOptionAndClose(obj, open)}
-                  className={sortType.sort === obj.sort ? "active" : ""}
+                  className={ssort.sort === obj.sort ? "active" : ""}
                 >
                   {obj.name}
                 </li>
