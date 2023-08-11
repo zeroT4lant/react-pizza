@@ -32,26 +32,29 @@ export const Home = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    const order = sortType.sort.includes("-") ? "asc" : "desc";
-    const sortBy = sortType.sort.replace("-", "");
-    const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValue ? `&search=${searchValue}` : "";
+    // const order = sortType.sort.includes("-") ? "asc" : "desc";
+    // const sortBy = sortType.sort.replace("-", "");
+    const sortBy = sortType.sort;
+    const category = categoryId > 0 ? `category=${categoryId}` : ""; //work category
+    const search = searchValue ? `&title=*${searchValue}*` : ""; //work search
 
     fetch(
-      `https://64ca4e9a700d50e3c704afbc.mockapi.io/items?page=${currentPage}&limit=4& ${category}&sortBy=${sortBy}&order=${order}${search}`
+      `https://1e1f1345ed33866a.mokky.dev/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}${search}`
     ) //вытаскиваем данные фетчем
       .then((res) => {
         return res.json();
       })
       .then(
         (
-          arr //устанавливаем данные
+          data //устанавливаем данные
         ) => {
-          setItems(arr);
+          setItems(data.items);
           setIsLoading(false);
         }
       );
   }, [categoryId, sortType, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
+
+  
 
   const pizzasss = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(10)].map((_, index) => (
