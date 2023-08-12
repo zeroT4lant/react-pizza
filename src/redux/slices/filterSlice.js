@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 //связан с filterSlice
 const initialState = {//создаём начальные значения
     categoryId: 0,  //для категорий
+    currentPage : 1,
     ssort: {    //для сортировок
         name: "популярности",
         sort: "rating",
@@ -19,11 +20,14 @@ const filterSlice = createSlice({
         },
         setSort(state, action) {
             state.ssort = action.payload
+        },
+        setCurrentPage(state, action) {
+            state.currentPage = action.payload
         }
     }
 })
 
-export const {setCategoryId,setSort} = filterSlice.actions;
+export const {setCategoryId,setSort,setCurrentPage} = filterSlice.actions;
 //actions - по сути тот же reducers, разрабы решили так сделать
 //actions == reducers
 

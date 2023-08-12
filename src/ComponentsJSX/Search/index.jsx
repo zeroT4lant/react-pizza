@@ -26,11 +26,11 @@ const Search = () => {
   const updateSearchValue = React.useCallback(//функция один раз создается и всё
   debounce((str) => {
     setSearchValue(str)
-  }, 1000),
+  }, 150),
     [],
   );
 
-  const onChangeInput = event => {
+  const onChangeInput = (event) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   }
