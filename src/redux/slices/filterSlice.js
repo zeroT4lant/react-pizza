@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 //связан с filterSlice
-const initialState = {//создаём начальное значение
-    categoryId: 0,
-    ssort: {
-        //сортировка
+const initialState = {//создаём начальные значения
+    categoryId: 0,  //для категорий
+    ssort: {    //для сортировок
         name: "популярности",
         sort: "rating",
     },

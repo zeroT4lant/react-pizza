@@ -24,7 +24,6 @@ function Sort() {//впервые sortType приходит как объект 
 
   const selectOptionAndClose = (i, open) => {
     dispatch(setSort(i))
-    // onClickSort(i);
     setOpen(!open);
   };
 
