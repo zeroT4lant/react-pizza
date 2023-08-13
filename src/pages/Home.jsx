@@ -16,6 +16,8 @@ import { SearchContext } from "../App";
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false)
 
   const categoryId = useSelector((state) => state.filter.categoryId); //для категорий
   const currentPage = useSelector((state) => state.filter.currentPage);
@@ -33,20 +35,7 @@ export const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  React.useEffect(()=> {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1))
-
-      const sort = sortOptions.find(obj => obj.sort === params.sort)
-
-      dispatch(setFilters({
-        ...params,
-        sort,
-      }))
-    }
-  }, [])
-
-  React.useEffect(() => {//при каждом изменении параметров в квадратных скобках ниже ререндерит страницу
+  const fetchPizzas = () => {
     setIsLoading(true);
 
     const sortBy = ssort; //const sortBy = ssort.sort;
@@ -62,18 +51,46 @@ export const Home = () => {
         setItems(res.data.items);
         setIsLoading(false);
       });
-  }, [categoryId, ssort, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
+  }
 
+  //Если изменили парметры и был первый рендер
   React.useEffect(() => {
-    const queryString = qs.stringify({
-      sort:ssort,
-      categoryId,
-      currentPage,
-    });
-
-    navigate(`?${queryString}`)
-    console.log(queryString)
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        sort:ssort,
+        categoryId,
+        currentPage,
+      });
+  
+      navigate(`?${queryString}`);
+    }
+    isMounted.current = true
   },[categoryId, ssort, currentPage])
+
+  //если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
+  React.useEffect(()=> {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+
+      const sort = sortOptions.find(obj => obj.sort === params.sort)
+
+      dispatch(setFilters({
+        ...params,
+        sort,
+      }))
+      isSearch.current = true;
+    }
+  }, [])
+
+  React.useEffect(() => {//при каждом изменении параметров в квадратных скобках ниже ререндерит страницу
+    
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+
+    isSearch.current = false;
+
+  }, [categoryId, ssort, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
 
   const pizzasss = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(10)].map((_, index) => (
