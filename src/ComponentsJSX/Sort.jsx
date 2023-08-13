@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import {useSelector,useDispatch} from 'react-redux'
 import {setSort} from "../redux/slices/filterSlice"
 
-function Sort() {//впервые sortType приходит как объект с двумя полями(свойствами)
-//{ sortType, onClickSort }
-  const dispatch = useDispatch()
-  const ssort = useSelector(state => state.filter.ssort)
-
-  const sortOptions = 
-  [
+export const sortOptions = [
   {name:"популярности (desc)",sort: 'rating'},
   {name:"популярности (asc)",sort: '-rating'},
   {name:"цене (desc)",sort: 'price'},
   {name:"цене (asc)",sort: '-price'},
   {name:"алфавиту (desc)",sort: 'title'},
-  {name:"алфавиту (asc)",sort: '-title'},]
+  {name:"алфавиту (asc)",sort: '-title'},
+];
+
+function Sort() {//впервые sortType приходит как объект с двумя полями(свойствами)
+//{ sortType, onClickSort }
+  const dispatch = useDispatch()
+  const ssort = useSelector(state => state.filter.ssort)
 
 
   const [open, setOpen] = useState(false); //делаем ниже крутую проверку

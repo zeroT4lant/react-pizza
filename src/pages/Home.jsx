@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import qs from 'qs'
+import { useNavigate } from "react-router-dom";
 
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
 
-import Sort from "../ComponentsJSX/Sort";
+import Sort, { sortOptions } from "../ComponentsJSX/Sort";
 import PizzaBlock from "../ComponentsJSX/PizzaBlock";
 import Categories from "../ComponentsJSX/Categories";
 import Skeleton from "../ComponentsJSX/PizzaBlock/Skeleton";
@@ -12,10 +14,11 @@ import Pagination from "../ComponentsJSX/Pagination";
 import { SearchContext } from "../App";
 
 export const Home = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const categoryId = useSelector((state) => state.filter.categoryId); //для категорий
-  const currentPage   = useSelector((state) => state.filter.currentPage);
+  const currentPage = useSelector((state) => state.filter.currentPage);
   const ssort = useSelector((state) => state.filter.ssort.sort); //вытащили изначальное состояние - rating
 
   const { searchValue } = React.useContext(SearchContext); //делаем чтобы применить контекст
@@ -30,7 +33,20 @@ export const Home = () => {
     dispatch(setCurrentPage(number));
   };
 
-  useEffect(() => {
+  React.useEffect(()=> {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+
+      const sort = sortOptions.find(obj => obj.sort === params.sort)
+
+      dispatch(setFilters({
+        ...params,
+        sort,
+      }))
+    }
+  }, [])
+
+  React.useEffect(() => {//при каждом изменении параметров в квадратных скобках ниже ререндерит страницу
     setIsLoading(true);
 
     const sortBy = ssort; //const sortBy = ssort.sort;
@@ -43,11 +59,21 @@ export const Home = () => {
       )
       .then((res) => {
         //ответ от сервера в res
-        console.log(res.data.items)
         setItems(res.data.items);
         setIsLoading(false);
       });
   }, [categoryId, ssort, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
+
+  React.useEffect(() => {
+    const queryString = qs.stringify({
+      sort:ssort,
+      categoryId,
+      currentPage,
+    });
+
+    navigate(`?${queryString}`)
+    console.log(queryString)
+  },[categoryId, ssort, currentPage])
 
   const pizzasss = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(10)].map((_, index) => (
