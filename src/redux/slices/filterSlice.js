@@ -26,7 +26,7 @@ const filterSlice = createSlice({
         },
         setFilters(state, action) {
             state.currentPage = Number(action.payload.currentPage)
-            state.ssort = action.payload.sort//было sort в гайде 15 урок до 10 минуты
+            state.ssort = action.payload.sort//было ssort в гайде 15 урок до 10 минуты
             state.categoryId = Number(action.payload.categoryId)
         },
     }
