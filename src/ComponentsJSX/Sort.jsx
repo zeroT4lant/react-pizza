@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import {useSelector,useDispatch} from 'react-redux'
-import {setSort} from "../redux/slices/filterSlice"
+import { useSelector, useDispatch } from "react-redux";
+import { setSort } from "../redux/slices/filterSlice";
 
 export const sortOptions = [
-  {name:"популярности (desc)",sort: 'rating'},
-  {name:"популярности (asc)",sort: '-rating'},
-  {name:"цене (desc)",sort: 'price'},
-  {name:"цене (asc)",sort: '-price'},
-  {name:"алфавиту (desc)",sort: 'title'},
-  {name:"алфавиту (asc)",sort: '-title'},
+  { name: "популярности (desc)", sort: "rating" },
+  { name: "популярности (asc)", sort: "-rating" },
+  { name: "цене (desc)", sort: "price" },
+  { name: "цене (asc)", sort: "-price" },
+  { name: "алфавиту (desc)", sort: "title" },
+  { name: "алфавиту (asc)", sort: "-title" },
 ];
 
-function Sort() {//впервые sortType приходит как объект с двумя полями(свойствами)
-//{ sortType, onClickSort }
-  const dispatch = useDispatch()
-  const ssort = useSelector(state => state.filter.ssort)
-
+function Sort() {
+  //впервые sortType приходит как объект с двумя полями(свойствами)
+  //{ sortType, onClickSort }
+  const dispatch = useDispatch();
+  const ssort = useSelector((state) => state.filter.ssort);
+  const sortRef = React.useRef();
 
   const [open, setOpen] = useState(false); //делаем ниже крутую проверку
   // если open==true, то рендерим выпадающий список
@@ -23,12 +24,27 @@ function Sort() {//впервые sortType приходит как объект 
   // const sortName = sortOptions[sortType]
 
   const selectOptionAndClose = (i, open) => {
-    dispatch(setSort(i))
+    dispatch(setSort(i));
     setOpen(!open);
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setOpen(false);
+        console.log("clicked");
+      }
+    };
+
+    document.body.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
