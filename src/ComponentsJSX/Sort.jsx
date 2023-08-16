@@ -44,8 +44,8 @@ function Sort() {
   }, []);
 
   return (
-    <div ref={sortRef} className="sort">
-      <div className="sort__label">
+    <div ref={sortRef} class="sort">
+      <div class="sort__label">
         <svg
           width="10"
           height="6"
@@ -66,13 +66,13 @@ function Sort() {
         //например при 3 && 4 && 6 - выведется 6
         //в случае 3 && false && 6 - выведется false
         open && (
-          <div className="sort__popup">
+          <div class="sort__popup">
             <ul>
               {sortOptions.map((obj, i) => (
                 <li
                   key={i}
                   onClick={() => selectOptionAndClose(obj, open)}
-                  className={ssort.sort === obj.sort ? "active" : ""}
+                  class={ssort.sort === obj.sort ? "active" : ""}
                 >
                   {obj.name}
                 </li>

@@ -20,7 +20,7 @@ const Search = () => {
   const onClickClear = () => {
     setSearchValue('')
     setValue('')
-    inputRef.current.focus();
+    inputRef.current.focus();//current для изменения как в случае со стейтами, позволяет взаимодействовать с переменной
   }
 
   const updateSearchValue = React.useCallback(//функция один раз создается и всё
@@ -36,12 +36,12 @@ const Search = () => {
   }
 
   return (
-    <div className={styles.root}>
-      <img alt="searchIcon" className={styles.icon} src={search} />
+    <div class={styles.root}>
+      <img alt="searchIcon" class={styles.icon} src={search} />
       <input
         ref={inputRef}
         onChange={onChangeInput}
-        className={styles.input}
+        class={styles.input}
         placeholder="Поиск пиццы..."
         value={value}
       />
@@ -50,7 +50,7 @@ const Search = () => {
           onClick={onClickClear}
           alt="close"
           src={close}
-          className={styles.close}
+          class={styles.close}
         />
       )}
     </div>

@@ -10,10 +10,10 @@ function Header() {
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 
   return (
-    <div className="header">
-      <div className="container">
+    <div class="header">
+      <div class="container">
         <Link to="/">
-          <div className="header__logo">
+          <div class="header__logo">
             <img width="38" src={pizzaImage} alt="Pizza logo" />
             <div>
               <h1>React Pizza</h1>
@@ -22,10 +22,10 @@ function Header() {
           </div>
         </Link>
         <Search />
-        <div className="header__cart">
-          <Link to="/cart" className="button button--cart">
+        <div class="header__cart">
+          <Link to="/cart" class="button button--cart">
             <span>{totalPrice} ₽</span>
-            <div className="button__delimiter"></div>
+            <div class="button__delimiter"></div>
             <svg
               width="18"
               height="18"

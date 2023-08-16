@@ -17,10 +17,10 @@ function App() {
   const [searchValue, setSearchValue] = useState("");
 
   return (
-    <div className="wrapper">
+    <div class="wrapper">
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
         <Header />
-        <div className="content">
+        <div class="content">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/cart" element={<Cart />}></Route>

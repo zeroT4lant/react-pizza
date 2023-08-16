@@ -34,31 +34,31 @@ function PizzaBlock({ id, title, price,imageUrl,sizes,types}) {
   const typeNames = ['тонкое','традиционное'];
 
   return (
-    <div className="pizza-block-wraper">
-      <div className="pizza-block">
+    <div class="pizza-block-wraper">
+      <div class="pizza-block">
       <img
-        className="pizza-block__image"
+        class="pizza-block__image"
         src={imageUrl}
         alt="Pizza"
       />
-      <h4 className="pizza-block__title">{title}</h4>
-      <div className="pizza-block__selector">
+      <h4 class="pizza-block__title">{title}</h4>
+      <div class="pizza-block__selector">
         <ul>
           {
-            types.map(type => <li key={type} onClick={() => setActiveType(type)} className={activeType === type ? 'active' : ''}>{typeNames[type]}</li>)
+            types.map(type => <li key={type} onClick={() => setActiveType(type)} class={activeType === type ? 'active' : ''}>{typeNames[type]}</li>)
           }
         </ul>
         <ul>
           {
-            sizes.map(size => <li key={size} onClick={() => setActiveSize(size)} className={activeSize === size ? 'active' : ''}>{size} см.</li>)
+            sizes.map(size => <li key={size} onClick={() => setActiveSize(size)} class={activeSize === size ? 'active' : ''}>{size} см.</li>)
           }
         </ul>
       </div>
-      <div className="pizza-block__bottom">
-        <div className="pizza-block__price">{price} ₽</div>
+      <div class="pizza-block__bottom">
+        <div class="pizza-block__price">{price} ₽</div>
         <button
           onClick={onClickAdd}
-          className="button button--outline button--add"
+          class="button button--outline button--add"
         >
           <svg
             width="12"

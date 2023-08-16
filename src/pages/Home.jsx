@@ -16,7 +16,7 @@ import { SearchContext } from "../App";
 export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = React.useRef(false);
+  const isSearch = React.useRef(false);//вместе с useRef используется current для изменений
   const isMounted = React.useRef(false)
 
   const categoryId = useSelector((state) => state.filter.categoryId); //для категорий
@@ -53,7 +53,7 @@ export const Home = () => {
       });
   }
 
-  //Если изменили парметры и был первый рендер
+  //Если изменили парaметры и был первый рендер
   React.useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
@@ -67,7 +67,7 @@ export const Home = () => {
     isMounted.current = true
   },[categoryId, ssort, currentPage])
 
-  //если был первый рендер, то проверяем URL-параметры и сохраняем в редуксе
+  //если был первый рендер, то проверяем URL-параметры и сохраняем в редaксе
   React.useEffect(()=> {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1))
@@ -99,8 +99,8 @@ export const Home = () => {
 
   return (
     <>
-      <div className="container">
-        <div className="content__top">
+      <div class="container">
+        <div class="content__top">
           <Categories
             categoryId={categoryId}
             onClickCategory={onClickCategory}
@@ -108,8 +108,8 @@ export const Home = () => {
 
           <Sort />
         </div>
-        <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">{isLoading ? skeletons : pizzasss}</div>
+        <h2 class="content__title">Все пиццы</h2>
+        <div class="content__items">{isLoading ? skeletons : pizzasss}</div>
         <Pagination value={currentPage} onChangePage={onChangePage} />
       </div>
     </>

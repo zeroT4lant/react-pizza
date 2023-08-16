@@ -16,14 +16,14 @@ function Categories({ categoryId, onClickCategory }) {
     <li
       key={i}
       onClick={() => onClickCategory(i)} //ниже - когда нынешний стейт будет равен выбранному индексу, добавляем active
-      className={categoryId === i ? "active" : ""}
+      class={categoryId === i ? "active" : ""}
     >
       {el}
     </li>
   )); //парсим все элементы
 
   return (
-    <div className="categories">
+    <div class="categories">
       <ul>{categoriesElement}</ul>
     </div> //при проверке проверяет индекс и передаём класс 'актив', если индекс совпадает
   );
