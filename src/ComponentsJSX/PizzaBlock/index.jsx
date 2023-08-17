@@ -25,10 +25,10 @@ function PizzaBlock({ id, title, price,imageUrl,sizes,types}) {
   }
 
 
-  const [activeType,setActiveType] = useState()
+  const [activeType,setActiveType] = useState(types[0])
 
   //"sizes": [26, 30, 40],
-  const [activeSize,setActiveSize] = useState(0)
+  const [activeSize,setActiveSize] = useState(sizes[0])
 
   //types = [0,1]
   const typeNames = ['тонкое','традиционное'];
@@ -45,12 +45,12 @@ function PizzaBlock({ id, title, price,imageUrl,sizes,types}) {
       <div class="pizza-block__selector">
         <ul>
           {
-            types.map(type => <li key={type} onClick={() => setActiveType(type)} class={activeType === type ? 'active' : ''}>{typeNames[type]}</li>)
+            types.map((type,i) => <li className={activeType === type ? 'active' : ''} key={type} onClick={() => setActiveType(type)}>{typeNames[type]}</li>)
           }
         </ul>
         <ul>
           {
-            sizes.map(size => <li key={size} onClick={() => setActiveSize(size)} class={activeSize === size ? 'active' : ''}>{size} см.</li>)
+            sizes.map((size) => <li className={activeSize === size ? 'active' : ''} key={size} onClick={() => setActiveSize(size)}>{size} см.</li>)
           }
         </ul>
       </div>
