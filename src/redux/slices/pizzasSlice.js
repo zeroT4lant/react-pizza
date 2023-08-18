@@ -2,12 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchPizzas = createAsyncThunk(
-  "pizza/fetchPizzasStatus",
-  async (params) => {
+  "pizza/fetchPizzasStatus",//чтобы был понятный статус в редаксе, к ним добавляются статусы из Экстра Редюсеров
+  async (params,thunkAPI) => {
     const { sortBy, category, search, currentPage } = params;
     const res = await axios.get(
       `https://1e1f1345ed33866a.mokky.dev/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}${search}`
     );
+
     return res.data.items;
   }
 );
@@ -16,6 +17,7 @@ export const fetchPizzas = createAsyncThunk(
 const initialState = {
   //создаём начальные значения
   items: [],
+  status: 'loading'
 };
 
 const pizzasSlice = createSlice({
@@ -29,10 +31,10 @@ const pizzasSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzas.pending, (state) => {
-        state.status = "loading";
-        state.items = [];
-        console.log("Отправка");
-      })
+          state.status = "loading";
+          state.items = [];
+          console.log("Отправка");
+        })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.items = action.payload;
         state.status = "success";

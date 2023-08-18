@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
@@ -27,10 +27,9 @@ export const Home = () => {
   const categoryId = useSelector((state) => state.filter.categoryId); //для категорий
   const currentPage = useSelector((state) => state.filter.currentPage);
   const ssort = useSelector((state) => state.filter.ssort.sort); //вытащили изначальное состояние - rating
-  const items = useSelector((state) => state.pizzas.items);
+  const { items, status } = useSelector((state) => state.pizzas);//вытащили из pizzaSlice
 
   const { searchValue } = React.useContext(SearchContext); //делаем чтобы применить контекст
-  const [isLoading, setIsLoading] = useState(true);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -41,22 +40,11 @@ export const Home = () => {
   };
 
   const getPizzas = async () => {
-    setIsLoading(true);
-
     const sortBy = ssort; //const sortBy = ssort.sort;
     const category = categoryId > 0 ? `category=${categoryId}` : ""; //work category
     const search = searchValue ? `&title=*${searchValue}*` : ""; //work search
 
-    try {
-      console.log(55555);
-      dispatch(fetchPizzas({sortBy,category,search,currentPage})
-      );
-    } catch (error) {
-      console.log("ERROR", error);
-    } finally {
-      //выполняется в любом случае
-      setIsLoading(false);
-    }
+    dispatch(fetchPizzas({ sortBy, category, search, currentPage }));//Передаем параметры в pizzasSlice
   };
 
   //Если изменили парaметры и был первый рендер
@@ -117,7 +105,16 @@ export const Home = () => {
           <Sort />
         </div>
         <h2 class="content__title">Все пиццы</h2>
-        <div class="content__items">{isLoading ? skeletons : pizzasss}</div>
+        {status === "error" ? (
+          <div class="content__error-info">
+            <h2>Ошибка бля</h2>
+            <p>Чини, Козёл</p>
+          </div>
+        ) : (
+          <div class="content__items">
+            {status === "loading" ? skeletons : pizzasss}
+          </div>
+        )}
         <Pagination value={currentPage} onChangePage={onChangePage} />
       </div>
     </>
