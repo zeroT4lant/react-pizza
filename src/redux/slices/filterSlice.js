@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 //связан с filterSlice
 const initialState = {//создаём начальные значения
+    searchValue: '',
     categoryId: 0,  //для категорий
     currentPage : 1,
     ssort: {    //для сортировок
@@ -18,6 +19,9 @@ const filterSlice = createSlice({
         setCategoryId(state, action) {
             state.categoryId = action.payload
         },
+        setSearchValue(state, action) {
+            state.searchValue = action.payload
+        },
         setSort(state, action) {
             state.ssort = action.payload
         },
@@ -32,7 +36,7 @@ const filterSlice = createSlice({
     }
 })
 
-export const {setCategoryId,setSort,setCurrentPage,setFilters} = filterSlice.actions;
+export const {setCategoryId,setSort,setCurrentPage,setFilters,setSearchValue} = filterSlice.actions;
 //actions - по сути тот же reducers, разрабы решили так сделать
 //actions == reducers
 

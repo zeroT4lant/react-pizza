@@ -1,11 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 import pizzaImage from "./pizza-logo.svg";
 import { useSelector } from "react-redux";
+import { selectCart } from "../redux/slices/cartSlice";
 
 function Header() {
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
-  const items = useSelector((state) => state.cart.items);
+  const { items, totalPrice } = useSelector(selectCart);
+
+  const location = useLocation();//позволяет проводить действия с адрессной строкой
+  //показывает расположение, что адрессная строка изменилась и что нужна перерисовка
 
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 
@@ -23,6 +26,7 @@ function Header() {
         </Link>
         <Search />
         <div class="header__cart">
+        {location.pathname !== '/cart' && (
           <Link to="/cart" class="button button--cart">
             <span>{totalPrice} ₽</span>
             <div class="button__delimiter"></div>
@@ -57,6 +61,7 @@ function Header() {
             </svg>
             <span>{totalCount}</span>
           </Link>
+      )}
         </div>
       </div>
     </div>

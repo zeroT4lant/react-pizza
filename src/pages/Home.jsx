@@ -14,7 +14,6 @@ import PizzaBlock from "../ComponentsJSX/PizzaBlock";
 import Categories from "../ComponentsJSX/Categories";
 import Skeleton from "../ComponentsJSX/PizzaBlock/Skeleton";
 import Pagination from "../ComponentsJSX/Pagination";
-import { SearchContext } from "../App";
 import { fetchPizzas } from "../redux/slices/pizzasSlice";
 
 export const Home = () => {
@@ -28,8 +27,9 @@ export const Home = () => {
   const currentPage = useSelector((state) => state.filter.currentPage);
   const ssort = useSelector((state) => state.filter.ssort.sort); //вытащили изначальное состояние - rating
   const { items, status } = useSelector((state) => state.pizzas);//вытащили из pizzaSlice
+  
+  const searchValue = useSelector((state) => state.filter.searchValue)
 
-  const { searchValue } = React.useContext(SearchContext); //делаем чтобы применить контекст
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -44,7 +44,7 @@ export const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : ""; //work category
     const search = searchValue ? `&title=*${searchValue}*` : ""; //work search
 
-    dispatch(fetchPizzas({ sortBy, category, search, currentPage }));//Передаем параметры в pizzasSlice
+    dispatch(fetchPizzas({ sortBy, category, search, currentPage }));//Передаём параметры в pizzasSlice
   };
 
   //Если изменили парaметры и был первый рендер

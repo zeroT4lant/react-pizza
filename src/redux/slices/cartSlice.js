@@ -68,6 +68,8 @@ const cartSlice = createSlice({
     }
 })
 
+export const selectCart = (state) => state.cart;
+
 export const {addItem, removeItem, clearItems,minusItem} = cartSlice.actions;
 //actions - по сути тот же reducers, разрабы решили так сделать
 //actions == reducers
