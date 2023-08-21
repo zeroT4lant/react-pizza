@@ -3,8 +3,12 @@ import React from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 
-const FullPizza = () => {
-    const [pizza,setPizza] = React.useState('');
+const FullPizza: React.FC = () => {//FC - тип функционального компонента
+    const [pizza,setPizza] = React.useState<{
+        imageUrl: string;
+        title: string;
+        price: number;
+    }>();
     const {id} = useParams();//ДОСТАЁТСЯ из адрессной строки и позволяет использовать динамические параметры
     //используется для запроса
     //показывает, что нужно делать перерисовку, если меняется адрессная строка
@@ -27,11 +31,11 @@ const FullPizza = () => {
     },[id])
 
     if (!pizza) {
-        return 'Загрузка'
+        return <>Загрузка</>;
     }
 
   return (
-    <div class='container'>
+    <div className='container'>
         <img src={pizza.imageUrl} />
         <h2>{pizza.title}</h2>
         <h4>{pizza.price} $</h4>

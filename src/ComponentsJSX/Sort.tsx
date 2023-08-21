@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSort } from "../redux/slices/filterSlice";
+import { setSort, sortSelector } from "../redux/slices/filterSlice";
 
-export const sortOptions = [
+type SortItem = {
+  name: string;
+  sort: string;
+}
+
+export const sortOptions: SortItem[] = [
   { name: "популярности (desc)", sort: "rating" },
   { name: "популярности (asc)", sort: "-rating" },
   { name: "цене (desc)", sort: "price" },
@@ -15,21 +20,21 @@ function Sort() {
   //впервые sortType приходит как объект с двумя полями(свойствами)
   //{ sortType, onClickSort }
   const dispatch = useDispatch();
-  const ssort = useSelector((state) => state.filter.ssort);
-  const sortRef = React.useRef();
+  const ssort = useSelector(sortSelector);
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false); //делаем ниже крутую проверку
   // если open==true, то рендерим выпадающий список
 
   // const sortName = sortOptions[sortType]
 
-  const selectOptionAndClose = (i, open) => {
+  const selectOptionAndClose = (i : SortItem, open : boolean) => {
     dispatch(setSort(i));
     setOpen(!open);
   };
 
-  React.useEffect(() => {
-    const handleClickOutside = (event) => {
+  React.useEffect(() => {//закрывает сортировку, если кликнул вне неё
+    const handleClickOutside = (event : any) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setOpen(false);
       }
@@ -43,8 +48,8 @@ function Sort() {
   }, []);
 
   return (
-    <div ref={sortRef} class="sort">
-      <div class="sort__label">
+    <div ref={sortRef} className="sort">
+      <div className="sort__label">
         <svg
           width="10"
           height="6"
@@ -61,17 +66,18 @@ function Sort() {
         <span onClick={() => setOpen(!open)}>{ssort.name}</span>
       </div>
       {
-        //если open === true, то выводим выпадающий список. Два амперсанта работают так, что иду по очерёдности до конца, выполняя последнее ТРУ действие
+        //если open === true, то выводим выпадающий список.
+        //Два амперсанта работают так, что иду по очерёдности до конца, выполняя последнее ТРУ действие
         //например при 3 && 4 && 6 - выведется 6
         //в случае 3 && false && 6 - выведется false
         open && (
-          <div class="sort__popup">
+          <div className="sort__popup">
             <ul>
               {sortOptions.map((obj, i) => (
                 <li
                   key={i}
                   onClick={() => selectOptionAndClose(obj, open)}
-                  class={ssort.sort === obj.sort ? "active" : ""}
+                  className={ssort.sort === obj.sort ? "active" : ""}
                 >
                   {obj.name}
                 </li>

@@ -4,9 +4,13 @@ import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
 import {
+  filterSelector,
+  searchSelector,
   setCategoryId,
   setCurrentPage,
   setFilters,
+  sortSelector,
+  ssortSelector,
 } from "../redux/slices/filterSlice";
 
 import Sort, { sortOptions } from "../ComponentsJSX/Sort";
@@ -14,28 +18,29 @@ import PizzaBlock from "../ComponentsJSX/PizzaBlock";
 import Categories from "../ComponentsJSX/Categories";
 import Skeleton from "../ComponentsJSX/PizzaBlock/Skeleton";
 import Pagination from "../ComponentsJSX/Pagination";
-import { fetchPizzas } from "../redux/slices/pizzasSlice";
+import { fetchPizzas, pizzaSelector } from "../redux/slices/pizzasSlice";
 
-export const Home = () => {
+export const Home : React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false); //вместе с useRef используется current для изменений
   const isMounted = React.useRef(false);
 
   //СЕЛЕКТОРЫ
-  const categoryId = useSelector((state) => state.filter.categoryId); //для категорий
-  const currentPage = useSelector((state) => state.filter.currentPage);
-  const ssort = useSelector((state) => state.filter.ssort.sort); //вытащили изначальное состояние - rating
-  const { items, status } = useSelector((state) => state.pizzas);//вытащили из pizzaSlice
+  // const categoryId = useSelector((state) => state.filter.categoryId); //для категорий
+  // const currentPage = useSelector((state) => state.filter.currentPage);
+  const {categoryId,currentPage} = useSelector(filterSelector)
+  const ssort = useSelector(ssortSelector); //вытащили изначальное состояние - rating
+  const { items, status } = useSelector(pizzaSelector);//вытащили из pizzaSlice
   
-  const searchValue = useSelector((state) => state.filter.searchValue)
+  const searchValue = useSelector(searchSelector)
 
 
-  const onClickCategory = (id) => {
+  const onClickCategory = (id : number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = (number) => {
+  const onChangePage = (number : number) => {
     dispatch(setCurrentPage(number));
   };
 
@@ -44,7 +49,15 @@ export const Home = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : ""; //work category
     const search = searchValue ? `&title=*${searchValue}*` : ""; //work search
 
-    dispatch(fetchPizzas({ sortBy, category, search, currentPage }));//Передаём параметры в pizzasSlice
+    dispatch(
+      //@ts-ignore
+      fetchPizzas({
+        sortBy,
+        category,
+        search,
+        currentPage,
+        })
+         );//Передаём параметры в pizzasSlice
   };
 
   //Если изменили парaметры и был первый рендер
@@ -88,15 +101,15 @@ export const Home = () => {
     isSearch.current = false;
   }, [categoryId, ssort, searchValue, currentPage]); //скобки пустые в конце значат, что рендерим один раз при загрузке
 
-  const pizzasss = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzasss = items.map((obj : any) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(10)].map((_, index) => (
     <Skeleton key={index} />
   ));
 
   return (
     <>
-      <div class="container">
-        <div class="content__top">
+      <div className="container">
+        <div className="content__top">
           <Categories
             categoryId={categoryId}
             onClickCategory={onClickCategory}
@@ -104,14 +117,14 @@ export const Home = () => {
 
           <Sort />
         </div>
-        <h2 class="content__title">Все пиццы</h2>
+        <h2 className="content__title">Все пиццы</h2>
         {status === "error" ? (
-          <div class="content__error-info">
+          <div className="content__error-info">
             <h2>Ошибка бля</h2>
             <p>Чини, Козёл</p>
           </div>
         ) : (
-          <div class="content__items">
+          <div className="content__items">
             {status === "loading" ? skeletons : pizzasss}
           </div>
         )}

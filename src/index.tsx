@@ -1,18 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.js";
+import App from "./App";
 import { BrowserRouter} from "react-router-dom";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 
 
+const rootElem = document.getElementById('root')
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+if (rootElem) {//если он есть, выполняем код ниже
+  const root = ReactDOM.createRoot(rootElem);
+  root.render(
     <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
     </BrowserRouter>
 );
+}
+

@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 import Header from "../ComponentsJSX/Header";
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <div class="wrapper">
       <Header />

@@ -36,6 +36,7 @@ const cartSlice = createSlice({
             state.totalPrice = state.items.reduce((sum,obj) => {
                 return sum + (obj.price * obj.count);
             }, 0);//начинаем суммировать с нуля
+            //проходит циклом и считает всю сумму
             
         },
         minusItem(state,action){//work
@@ -69,6 +70,9 @@ const cartSlice = createSlice({
 })
 
 export const selectCart = (state) => state.cart;
+export const selectCartItem = state => state.cart.items.find(obj => obj.id === id)
+export const selectCartItems = state => state.cart.items
+export const selectTotalPrice = (state) => state.cart.totalPrice
 
 export const {addItem, removeItem, clearItems,minusItem} = cartSlice.actions;
 //actions - по сути тот же reducers, разрабы решили так сделать

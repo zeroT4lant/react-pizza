@@ -1,7 +1,11 @@
 import React from "react";
 
-function Categories({ categoryId, onClickCategory }) {
-  // const [activeIndex, setActiveIndex] = React.useState(0);
+type CategoriesProps = {
+  categoryId : number;
+  onClickCategory : any;
+}
+
+const Categories : React.FC<CategoriesProps> = ({ categoryId, onClickCategory }) => {
 
   const categories = [
     "Все",
@@ -16,14 +20,14 @@ function Categories({ categoryId, onClickCategory }) {
     <li
       key={i}
       onClick={() => onClickCategory(i)} //ниже - когда нынешний стейт будет равен выбранному индексу, добавляем active
-      class={categoryId === i ? "active" : ""}
+      className={categoryId === i ? "active" : ""}
     >
       {el}
     </li>
   )); //парсим все элементы
 
   return (
-    <div class="categories">
+    <div className="categories">
       <ul>{categoriesElement}</ul>
     </div> //при проверке проверяет индекс и передаём класс 'актив', если индекс совпадает
   );

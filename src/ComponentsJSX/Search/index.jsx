@@ -13,15 +13,13 @@ const Search = () => {
 
   //вытаскиваем переменную контекстом
 
-  //так как передавали объект и содержимое его
-  //если одну переменную, то просто название для const
-
   const inputRef = React.useRef();
 
   const onClickClear = () => {
     dispatch(setSearchValue(""));
     setValue("");
     inputRef.current.focus(); //current для изменения как в случае со стейтами, позволяет взаимодействовать с переменной
+    // в TS inputRef.current?.focus();
   };
 
   const updateSearchValue = React.useCallback(
@@ -38,8 +36,8 @@ const Search = () => {
   };
 
   return (
-    <div class={styles.root}>
-      <img alt="searchIcon" class={styles.icon} src={search} />
+    <div className={styles.root}>
+      <img alt="searchIcon" className={styles.icon} src={search} />
       <input
         ref={inputRef}
         onChange={onChangeInput}

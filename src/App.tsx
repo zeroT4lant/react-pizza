@@ -1,14 +1,9 @@
-import React from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
-
-
+import { Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Cart from "./pages/Cart";
 import FullPizza from "./pages/FullPizza";
-
-import { createContext, useState } from "react";
 
 import "./scss/app.scss";
 import MainLayout from "./layouts/MainLayout";

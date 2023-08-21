@@ -47,6 +47,8 @@ const pizzasSlice = createSlice({
   },
 });
 
+export const pizzaSelector = (state) => state.pizzas
+
 export const { setItems } = pizzasSlice.actions;
 //actions - по сути тот же reducers, разрабы решили так сделать
 //actions == reducers

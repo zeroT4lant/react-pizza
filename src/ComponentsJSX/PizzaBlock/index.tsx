@@ -1,14 +1,23 @@
 import { useState } from "react";
 import React from 'react'
 import { useSelector,useDispatch } from 'react-redux';
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, selectCartItem } from "../../redux/slices/cartSlice";
 import { Link } from "react-router-dom";
 
-function PizzaBlock({ id, title, price,imageUrl,sizes,types}) {
+type PizzaBlockProps = { 
+  id : number;
+  title : string;
+  sizes : number[];
+  types : number[];
+  price: number;
+  count: number;
+  imageUrl: string;}
+
+const PizzaBlock : React.FC<PizzaBlockProps> = ({ id, title, price,imageUrl,sizes,types}) => {
 
   const dispatch = useDispatch();
   //в массиве items ищем элемент, где айди будут совпадать
-  const cartItem = useSelector(state => state.cart.items.find(obj => obj.id === id))
+  const cartItem = useSelector(selectCartItem)
 
   //если нашёлся такой товар, то возвращаем count
   const addedCount = cartItem ? cartItem.count : 0;
@@ -35,33 +44,33 @@ function PizzaBlock({ id, title, price,imageUrl,sizes,types}) {
   const typeNames = ['тонкое','традиционное'];
 
   return (
-    <div class="pizza-block-wraper">
-      <div class="pizza-block">
+    <div className="pizza-block-wraper">
+      <div className="pizza-block">
       <Link to={`/pizza/${id}`}>
         <img
-          class="pizza-block__image"
+          className="pizza-block__image"
           src={imageUrl}
           alt="Pizza"
         />
-        <h4 class="pizza-block__title">{title}</h4>
+        <h4 className="pizza-block__title">{title}</h4>
       </Link>
-      <div class="pizza-block__selector">
+      <div className="pizza-block__selector">
         <ul>
           {
-            types.map((type,i) => <li class={activeType === type ? 'active' : ''} key={type} onClick={() => setActiveType(type)}>{typeNames[type]}</li>)
+            types.map((type,i) => <li className={activeType === type ? 'active' : ''} key={type} onClick={() => setActiveType(type)}>{typeNames[type]}</li>)
           }
         </ul>
         <ul>
           {
-            sizes.map((size) => <li class={activeSize === size ? 'active' : ''} key={size} onClick={() => setActiveSize(size)}>{size} см.</li>)
+            sizes.map((size) => <li className={activeSize === size ? 'active' : ''} key={size} onClick={() => setActiveSize(size)}>{size} см.</li>)
           }
         </ul>
       </div>
-      <div class="pizza-block__bottom">
-        <div class="pizza-block__price">{price} ₽</div>
+      <div className="pizza-block__bottom">
+        <div className="pizza-block__price">{price} ₽</div>
         <button
           onClick={onClickAdd}
-          class="button button--outline button--add"
+          className="button button--outline button--add"
         >
           <svg
             width="12"

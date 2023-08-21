@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './NotFoundBlock.module.scss' 
 
-export const NotFoundBlock = () => {
+export const NotFoundBlock: React.FC = () => {
   return (
-    <div class={styles.root}>
+    <div className={styles.root}>
         <span>😞</span>
         <h1>Ничего не найдено</h1>
-        <p class={styles.description}>Подобной страницы в нашем интернет-магазине нет</p>
+        <p className={styles.description}>Подобной страницы в нашем интернет-магазине нет</p>
     </div>
   )
 }
