@@ -7,6 +7,12 @@ type SortItem = {
   sort: string;
 }
 
+type PopupEvent = MouseEvent & {
+  path: Node[]; 
+  composedPath: (tar?: HTMLElement) => EventTarget[]; 
+  target: HTMLElement; 
+}
+
 export const sortOptions: SortItem[] = [
   { name: "популярности (desc)", sort: "rating" },
   { name: "популярности (asc)", sort: "-rating" },
@@ -34,8 +40,13 @@ function Sort() {
   };
 
   React.useEffect(() => {//закрывает сортировку, если кликнул вне неё
-    const handleClickOutside = (event : any) => {
-      if (!event.composedPath().includes(sortRef.current)) {
+    const handleClickOutside: EventListenerOrEventListenerObject = (event) => {
+      let path;
+      if (sortRef.current) {
+        path = event.composedPath().includes(sortRef.current)
+      }
+      if (!path) {
+        console.log("click")
         setOpen(false);
       }
     };

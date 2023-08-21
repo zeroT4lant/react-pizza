@@ -15,7 +15,8 @@ const Search = () => {
 
   const inputRef = React.useRef();
 
-  const onClickClear = () => {
+  const onClickClear = () => {// TS (event: React.MouseEvent<SVGSVGElement>)
+    //<HTMLInputElement> - чтобы работали value
     dispatch(setSearchValue(""));
     setValue("");
     inputRef.current.focus(); //current для изменения как в случае со стейтами, позволяет взаимодействовать с переменной
@@ -30,7 +31,8 @@ const Search = () => {
     []
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event) => {// TS (event: React.ChangeEvent<HTMLInputElement>)
+    //<HTMLInputElement> - чтобы работали value
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -58,3 +60,6 @@ const Search = () => {
 };
 
 export default Search;
+
+
+//ChangeEvent - при вводе текста куда либо, MouseEvent - при клике
